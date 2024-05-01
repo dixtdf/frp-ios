@@ -66,7 +66,7 @@ var rootCmd = &cobra.Command{
 		}
 
 		// Do not show command usage here.
-		err := runClient(cfgFile)
+		err := RunClient(cfgFile)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
@@ -85,7 +85,7 @@ func runMultipleClients(cfgDir string) error {
 		time.Sleep(time.Millisecond)
 		go func() {
 			defer wg.Done()
-			err := runClient(path)
+			err := RunClient(path)
 			if err != nil {
 				fmt.Printf("frpc service error for config file [%s]\n", path)
 			}
@@ -110,7 +110,7 @@ func handleTermSignal(svr *client.Service) {
 	svr.GracefulClose(500 * time.Millisecond)
 }
 
-func runClient(cfgFilePath string) error {
+func RunClient(cfgFilePath string) error {
 	cfg, proxyCfgs, visitorCfgs, isLegacyFormat, err := config.LoadClientConfig(cfgFilePath, strictConfigMode)
 	if err != nil {
 		return err

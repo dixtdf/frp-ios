@@ -12,15 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package frpclib
 
 import (
 	_ "github.com/fatedier/frp/assets/frpc"
 	"github.com/fatedier/frp/cmd/frpc/sub"
 	"github.com/fatedier/frp/pkg/util/system"
+	"github.com/fatedier/golib/crypto"
 )
 
 func main() {
+	crypto.DefaultSalt = "frp"
 	system.EnableCompatibilityMode()
 	sub.Execute()
+}
+
+func Run(cfgFilePath string) {
+	crypto.DefaultSalt = "frp"
+	sub.RunClient(cfgFilePath)
 }
